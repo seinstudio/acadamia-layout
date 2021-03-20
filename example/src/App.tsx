@@ -56,10 +56,35 @@ const App = () => {
     onClick: () => {
       console.log('ASD')
     },
-    icon: <HomeOutlined />
+    icon: <HomeOutlined fontSize='large' />
   }))
 
-  return <AdminLayout footerText='Acadamia 2021' menus={menus} />
+  return (
+    <AdminLayout
+      footerText='Acadamia 2021'
+      menus={menus}
+      username={'sehalsein'}
+      onLogout={() => {
+        console.log('On Logout')
+      }}
+      userOptions={[
+        {
+          id: '1',
+          name: 'account-settings',
+          description: 'Account Settings',
+          onClick: () => {
+            console.log('Account On Click')
+          }
+        }
+      ]}
+      activeMenu='/approval'
+      handleNavigatorVisibility={() => {
+        console.log('handleNavigatorVisibility')
+      }}
+    >
+      <h1>Admin Layout</h1>
+    </AdminLayout>
+  )
 }
 
 export default App

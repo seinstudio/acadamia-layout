@@ -6,7 +6,7 @@ type SideBarMenuItem = {
   icon: React.ReactNode
 }
 
-export type SideBarMenu = SideBarMenuItem & {
+export type SideBarMenuType = SideBarMenuItem & {
   onClick: (item: SideBarMenuItem) => void
 }
 

@@ -1,29 +1,74 @@
-import { createStyles, makeStyles, useTheme } from '@material-ui/core/styles'
+import Container from '@material-ui/core/Container'
+import {
+  createStyles,
+  makeStyles,
+  Theme,
+  useTheme
+} from '@material-ui/core/styles'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
 import React, { useState } from 'react'
-import { AuthSideBar, BasicFooter, SideBarMenu } from '../components'
+import {
+  AuthSideBar,
+  BasicFooter,
+  BasicHeader,
+  SideBarMenuType
+} from '../components'
+import { UserChipOptionType } from '../components/UserChip'
 
-const useStyles = makeStyles(() =>
+const appLoaderHeight = 4
+
+const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {},
-    wrapper: {},
-    viewContainer: {},
-    view: {}
+    root: {
+      [theme.breakpoints.up('md')]: {
+        display: 'flex'
+      },
+      width: `100%`
+    },
+    wrapper: {
+      flexGrow: 1
+    },
+    viewContainer: {
+      minHeight: `calc(100vh - ${theme.spacing(2) + appLoaderHeight + 50}px)`
+    },
+    view: {
+      flex: 1,
+      flexGrow: 1,
+      marginLeft: 0,
+      paddingBottom: theme.spacing(),
+      [theme.breakpoints.up('sm')]: {
+        paddingBottom: theme.spacing(3)
+      }
+    }
   })
 )
 
 type AdminLayoutProps = {
+  children: React.ReactNode
   footerText: string
   handleSidebarDrawerOpen?: () => void
   sidebarOpen?: boolean
-  menus: SideBarMenu[]
+  menus: SideBarMenuType[]
+  activeMenu?: string
+  username: string
+  profilePicture?: string
+  onLogout: () => void
+  userOptions?: UserChipOptionType[]
+  handleNavigatorVisibility?: () => void
 }
 
 const AdminLayout = ({
   footerText,
   handleSidebarDrawerOpen,
   sidebarOpen: sidebarMenuOpen,
-  menus
+  menus,
+  activeMenu = '',
+  username,
+  profilePicture,
+  onLogout,
+  userOptions,
+  children,
+  handleNavigatorVisibility
 }: AdminLayoutProps) => {
   const classes = useStyles()
   const [sidebarOpen, setSidebarOpen] = useState(sidebarMenuOpen)
@@ -45,14 +90,22 @@ const AdminLayout = ({
             }
             setSidebarOpen(!sidebarOpen)
           }}
-          activeMenu='approval'
+          activeMenu={activeMenu}
         />
       )}
       <div className={classes.wrapper}>
         <div className={classes.viewContainer}>
-          <h1>Heaer</h1>
+          <BasicHeader
+            username={username}
+            profilePicture={profilePicture}
+            onLogout={onLogout}
+            userOptions={userOptions}
+            handleNavigatorVisibility={handleNavigatorVisibility}
+          />
           <main className={classes.view}>
-            <h1>SAD</h1>
+            <div>
+              <Container> {children} </Container>
+            </div>
           </main>
         </div>
         <BasicFooter text={footerText} />

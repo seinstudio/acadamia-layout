@@ -1,2 +1,5 @@
 export * from './Footer'
 export * from './SideBar'
+export * from './Header'
+export { default as UserChip } from './UserChip'
+export { default as NavigatorButton } from './NavigatorButton'
