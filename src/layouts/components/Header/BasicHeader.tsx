@@ -28,6 +28,7 @@ type BasicHeaderType = {
   onLogout: () => void
   userOptions?: UserChipOptionType[]
   handleNavigatorVisibility?: () => void
+  showNavigator: boolean
 }
 
 const BasicHeader = ({
@@ -36,7 +37,8 @@ const BasicHeader = ({
   username,
   profilePicture,
   userOptions,
-  handleNavigatorVisibility
+  handleNavigatorVisibility,
+  showNavigator = false
 }: BasicHeaderType) => {
   const classes = useStyles()
   const theme = useTheme()
@@ -48,7 +50,7 @@ const BasicHeader = ({
       <header className={clsx(classes.header, className)}>
         <div className={classes.spacer} />
 
-        {isSm && handleNavigatorVisibility && (
+        {showNavigator && isSm && handleNavigatorVisibility && (
           <NavigatorButton onClick={handleNavigatorVisibility} />
         )}
 

@@ -89,7 +89,6 @@ const NavigatorButton = ({
           >
             <Paper className={classes.hint} elevation={0}>
               <Typography>Search</Typography>
-
               <div className={classes.keyTile}>
                 <span className={classes.keyTileLabel}>
                   <Typography>{isMac ? '⌘' : 'Ctrl'}</Typography>

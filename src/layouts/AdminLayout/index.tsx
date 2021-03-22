@@ -11,7 +11,9 @@ import {
   AuthSideBar,
   BasicFooter,
   BasicHeader,
-  SideBarMenuType
+  SideBarMenuType,
+  Navigator,
+  NavigatorOptionType
 } from '../components'
 import { UserChipOptionType } from '../components/UserChip'
 
@@ -54,7 +56,7 @@ type AdminLayoutProps = {
   profilePicture?: string
   onLogout: () => void
   userOptions?: UserChipOptionType[]
-  handleNavigatorVisibility?: () => void
+  navigatorOptions?: NavigatorOptionType[]
 }
 
 const AdminLayout = ({
@@ -68,49 +70,64 @@ const AdminLayout = ({
   onLogout,
   userOptions,
   children,
-  handleNavigatorVisibility
+  navigatorOptions
 }: AdminLayoutProps) => {
   const classes = useStyles()
   const [sidebarOpen, setSidebarOpen] = useState(sidebarMenuOpen)
+  const [isNavigatorVisible, setNavigatorVisibility] = useState(false)
   const theme = useTheme()
   const isMd = useMediaQuery(theme.breakpoints.up('md'), {
     defaultMatches: true
   })
 
+  const showNavigator = !!(navigatorOptions && navigatorOptions.length)
   return (
-    <div className={classes.root}>
-      {isMd && (
-        <AuthSideBar
-          menus={menus}
-          open={!!sidebarOpen}
-          handleDrawerOpen={() => {
-            if (handleSidebarDrawerOpen) {
-              handleSidebarDrawerOpen()
-              return
-            }
-            setSidebarOpen(!sidebarOpen)
-          }}
-          activeMenu={activeMenu}
+    <React.Fragment>
+      {navigatorOptions && showNavigator && (
+        <Navigator
+          visible={isNavigatorVisible}
+          setVisibility={setNavigatorVisibility}
+          navigatorOptions={navigatorOptions}
         />
       )}
-      <div className={classes.wrapper}>
-        <div className={classes.viewContainer}>
-          <BasicHeader
-            username={username}
-            profilePicture={profilePicture}
-            onLogout={onLogout}
-            userOptions={userOptions}
-            handleNavigatorVisibility={handleNavigatorVisibility}
+
+      <div className={classes.root}>
+        {isMd && (
+          <AuthSideBar
+            menus={menus}
+            open={!!sidebarOpen}
+            handleDrawerOpen={() => {
+              if (handleSidebarDrawerOpen) {
+                handleSidebarDrawerOpen()
+                return
+              }
+              setSidebarOpen(!sidebarOpen)
+            }}
+            activeMenu={activeMenu}
           />
-          <main className={classes.view}>
-            <div>
-              <Container> {children} </Container>
-            </div>
-          </main>
+        )}
+        <div className={classes.wrapper}>
+          <div className={classes.viewContainer}>
+            <BasicHeader
+              username={username}
+              profilePicture={profilePicture}
+              onLogout={onLogout}
+              userOptions={userOptions}
+              showNavigator={showNavigator}
+              handleNavigatorVisibility={() => {
+                setNavigatorVisibility(true)
+              }}
+            />
+            <main className={classes.view}>
+              <div>
+                <Container> {children} </Container>
+              </div>
+            </main>
+          </div>
+          <BasicFooter text={footerText} />
         </div>
-        <BasicFooter text={footerText} />
       </div>
-    </div>
+    </React.Fragment>
   )
 }
 

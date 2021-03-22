@@ -78,9 +78,16 @@ const App = () => {
         }
       ]}
       activeMenu='/approval'
-      handleNavigatorVisibility={() => {
-        console.log('handleNavigatorVisibility')
-      }}
+      navigatorOptions={[
+        {
+          description: 'Sehal',
+          name: 'sehal'
+        },
+        {
+          description: 'Sein',
+          name: 'sein'
+        }
+      ]}
     >
       <h1>Admin Layout</h1>
     </AdminLayout>
